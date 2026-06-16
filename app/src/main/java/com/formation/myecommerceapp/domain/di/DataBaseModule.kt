@@ -14,7 +14,8 @@ fun createAppDatabase(applicationContext: Context): AppDatabase =
         context = applicationContext,
         klass = AppDatabase::class.java,
         name = "my-ecommerce-app-db"
-    ).build()
+    ).fallbackToDestructiveMigration()
+        .build()
 
 fun createProductDao(database: AppDatabase): ProductDao =
     database.getProductDao()

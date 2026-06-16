@@ -9,7 +9,7 @@ data class ProductDetails(
     val price: Double,
     val category: String,
     val isFavorite: Boolean,
-    val isInCart: Boolean,
+    val quantityInCart: Int,
     val averageMark: Double,
     val markCount: Int,
 )

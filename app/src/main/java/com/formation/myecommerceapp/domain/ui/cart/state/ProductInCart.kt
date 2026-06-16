@@ -5,4 +5,5 @@ data class ProductInCart(
     val name: String,
     val imageDrawable: String,
     val price: Double,
+    val quantity: Int,
 )

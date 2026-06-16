@@ -16,5 +16,5 @@ data class ProductEntity(
     @ColumnInfo(name = "is_favorite") val isFavorite: Boolean,
     @ColumnInfo(name = "average_mark") val averageMark: Double,
     @ColumnInfo(name = "mark_count") val markCount: Int,
-    @ColumnInfo(name = "is_in_cart", defaultValue = "false") val isInCart: Boolean = false,
+    @ColumnInfo(name = "quantity_in_cart") val quantityInCart: Int = 0,
 )

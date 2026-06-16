@@ -24,8 +24,8 @@ fun ProductEntity.toProductDetails() = ProductDetails(
     category = category,
     isFavorite = isFavorite,
     averageMark = averageMark,
+    quantityInCart = quantityInCart,
     markCount = markCount,
-    isInCart = isInCart,
 )
 
 fun ProductEntity.toProductInCart() = ProductInCart(
@@ -33,6 +33,7 @@ fun ProductEntity.toProductInCart() = ProductInCart(
     name = name,
     imageDrawable = imageDrawable,
     price = price,
+    quantity = quantityInCart,
 )
 
 fun ProductDetails.toEntity() = ProductEntity(
@@ -46,5 +47,5 @@ fun ProductDetails.toEntity() = ProductEntity(
     isFavorite = isFavorite,
     averageMark = averageMark,
     markCount = markCount,
-    isInCart = isInCart,
+    quantityInCart = quantityInCart,
 )

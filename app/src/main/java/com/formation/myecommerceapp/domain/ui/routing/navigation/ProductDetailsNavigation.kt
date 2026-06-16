@@ -5,7 +5,7 @@ import androidx.compose.runtime.getValue
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
-import com.formation.myecommerceapp.ui.productdetails.ProductDetailsPage
+import com.formation.myecommerceapp.domain.ui.productdetails.ProductDetailsPage
 import com.formation.myecommerceapp.domain.ui.productdetails.ProductDetailsViewModel
 import com.formation.myecommerceapp.ui.routing.ProductDetailsRoute
 import com.formation.myecommerceapp.ui.shared.ErrorPage

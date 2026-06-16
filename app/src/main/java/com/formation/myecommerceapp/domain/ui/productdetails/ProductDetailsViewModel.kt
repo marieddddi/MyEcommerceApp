@@ -1,11 +1,9 @@
 package com.formation.myecommerceapp.domain.ui.productdetails
 
-import android.util.Log
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.navigation.toRoute
-import com.formation.myecommerceapp.domain.data.local.dao.ProductDao
 import com.formation.myecommerceapp.domain.data.repository.ProductRepository
 import com.formation.myecommerceapp.domain.domain.exception.ProductNotFoundException
 import com.formation.myecommerceapp.domain.domain.mapper.toEntity
@@ -25,10 +23,6 @@ class ProductDetailsViewModel(
 ) : ViewModel() {
 
     private val route = savedStateHandle.toRoute<ProductDetailsRoute>()
-
-    // 1. Define the missing state flows here
-    // Note: If your Result sealed class doesn't have a 'Loading' object,
-    // change 'Result.Loading' to whatever your default state is.
     private val _state = MutableStateFlow<Result<ProductDetailsState>>(Result.Loading)
     val state: StateFlow<Result<ProductDetailsState>> = _state.asStateFlow()
 
@@ -42,24 +36,37 @@ class ProductDetailsViewModel(
                 ?.toProductDetails()
                 ?.let { Result.Success(ProductDetailsState(product = it)) }
                 ?: Result.Error(ProductNotFoundException(route.productId))
-            _state.value = result // Now '_state' is recognized!
+            _state.value = result
         }
     }
-
+    // Augmente la quantité de 1
     fun addProductToCart() {
         _state.value.getOrNull()?.let { state ->
             viewModelScope.launch {
-                productRepository.upsert(state.product.toEntity().copy(isInCart = true))
-                loadState()
+                val currentEntity = state.product.toEntity()
+                val newQuantity = currentEntity.quantityInCart + 1
+
+                productRepository.upsert(
+                    currentEntity.copy(quantityInCart = newQuantity)
+                )
+                loadState() // Recharge l'UI pour afficher le nouveau chiffre
             }
         }
     }
 
+    // Diminue la quantité de 1 (sans descendre en dessous de 0)
     fun removeProductFromCart() {
         _state.value.getOrNull()?.let { state ->
             viewModelScope.launch {
-                productRepository.upsert(state.product.toEntity().copy(isInCart = false))
-                loadState()
+                val currentEntity = state.product.toEntity()
+                if (currentEntity.quantityInCart > 0) {
+                    val newQuantity = currentEntity.quantityInCart - 1
+
+                    productRepository.upsert(
+                        currentEntity.copy(quantityInCart = newQuantity)
+                    )
+                    loadState() // Recharge l'UI
+                }
             }
         }
     }

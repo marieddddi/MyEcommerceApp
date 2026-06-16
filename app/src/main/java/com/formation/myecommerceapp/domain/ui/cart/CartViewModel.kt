@@ -14,33 +14,47 @@ import kotlinx.coroutines.launch
 class CartViewModel(
     private val productDao: ProductDao,
 ) : ViewModel() {
+
     private val _state = MutableStateFlow<Result<CartState>>(Result.Loading)
-    val state: StateFlow<Result<CartState>>
-        get() = _state.asStateFlow()
+    val state: StateFlow<Result<CartState>> = _state.asStateFlow()
 
     init {
-        loadState()
+        observeCart()
     }
 
-    private fun loadState() {
-        // On ouvre une coroutine pour écouter (collecter) le Flow de Room
+    // Grâce au .collect sur le Flow de Room, l'UI se mettra à jour toute seule lors des changements
+    private fun observeCart() {
         viewModelScope.launch {
-            productDao.getAllInCart().collect { productEntities ->
+            productDao.getCartProducts().collect { productEntities ->
                 val cart = productEntities.toCart()
                 _state.value = Result.Success(CartState(cart = cart))
             }
         }
     }
 
-    fun removeProductFromCart(productId: Int) {
+    // Action pour le bouton "+" dans le panier
+    fun increaseProductQuantity(productId: Int) {
         viewModelScope.launch {
-            productDao.getById(productId)?.let { currentProductValue ->
-                val newProductValue = currentProductValue.copy(isInCart = false)
-
-                productDao.upsert(newProductValue)
-
-                loadState()
+            productDao.getById(productId)?.let { currentProduct ->
+                val updatedProduct = currentProduct.copy(
+                    quantityInCart = currentProduct.quantityInCart + 1
+                )
+                productDao.upsert(updatedProduct)
             }
+        }
+    }
+
+    // Action pour le bouton "-" dans le panier
+    fun decreaseProductQuantity(productId: Int) {
+        viewModelScope.launch {
+            productDao.getById(productId)?.let { currentProduct ->
+                if (currentProduct.quantityInCart > 0) {
+                    val updatedProduct = currentProduct.copy(
+                        quantityInCart = currentProduct.quantityInCart - 1
+                    )
+                    productDao.upsert(updatedProduct)
+                }
             }
+        }
     }
 }

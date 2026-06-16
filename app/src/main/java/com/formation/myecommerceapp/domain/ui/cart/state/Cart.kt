@@ -1,7 +1,9 @@
-package com.formation.myecommerceapp.ui.cart.state
+package com.formation.myecommerceapp.domain.ui.cart.state
 
-import com.formation.myecommerceapp.domain.ui.cart.state.ProductInCart
-
-class Cart(
-    val products: List<ProductInCart>,
-)
+data class Cart(
+    val products: List<ProductInCart>
+) {
+    // calcul du total du panier
+    val totalPrice: Double
+        get() = products.sumOf { it.price * it.quantity }
+}

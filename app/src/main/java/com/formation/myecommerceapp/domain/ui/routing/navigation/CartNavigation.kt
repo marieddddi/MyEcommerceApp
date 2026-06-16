@@ -5,8 +5,8 @@ import androidx.compose.runtime.getValue
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
-import com.formation.myecommerceapp.ui.cart.CartPage
 import com.formation.myecommerceapp.domain.ui.cart.CartViewModel
+import com.formation.myecommerceapp.domain.ui.cart.CartPage
 import com.formation.myecommerceapp.ui.routing.CartRoute
 import com.formation.myecommerceapp.ui.shared.ErrorPage
 import com.formation.myecommerceapp.ui.shared.LoadingPage
@@ -21,7 +21,6 @@ fun NavGraphBuilder.cartNavigation(
 ) {
     composable<CartRoute> {
         val viewModel: CartViewModel = koinViewModel()
-
         val stateResult by viewModel.state.collectAsState()
 
         when (stateResult) {
@@ -30,8 +29,11 @@ fun NavGraphBuilder.cartNavigation(
                 onProductTapped = { product ->
                     navigateToProductDetails(product.id)
                 },
-                onRemoveProductFromCartTapped = { product ->
-                    viewModel.removeProductFromCart(product.id)
+                onIncreaseQuantityTapped = { product ->
+                    viewModel.increaseProductQuantity(product.id)
+                },
+                onDecreaseQuantityTapped = { product ->
+                    viewModel.decreaseProductQuantity(product.id)
                 },
                 onBackPressed = navigateBack,
             )
@@ -39,7 +41,6 @@ fun NavGraphBuilder.cartNavigation(
             is Result.Loading -> LoadingPage()
             is Result.Error -> ErrorPage(stateResult.getExceptionOrNull()!!)
         }
-
     }
 }
 

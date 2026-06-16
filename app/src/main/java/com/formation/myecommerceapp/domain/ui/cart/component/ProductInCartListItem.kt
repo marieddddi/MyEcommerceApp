@@ -1,6 +1,8 @@
-package com.formation.myecommerceapp.ui.cart.component
+package com.formation.myecommerceapp.domain.ui.cart.component
 
+import android.graphics.BitmapFactory
 import android.icu.util.Currency
+import android.util.Base64
 import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
@@ -13,10 +15,12 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.DeleteOutline
-import androidx.compose.material3.Button
+import androidx.compose.material.icons.filled.Add
+import androidx.compose.material.icons.filled.Remove
 import androidx.compose.material3.Card
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -29,17 +33,16 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.formation.myecommerceapp.R
 import com.formation.myecommerceapp.domain.ui.cart.state.ProductInCart
-import com.formation.myecommerceapp.utils.ImageConverter
 import java.text.NumberFormat
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ProductInCartListItem(
     product: ProductInCart,
     onProductTapped: () -> Unit,
-    onRemoveFromCartTapped: () -> Unit,
+    onIncreaseClick: () -> Unit,
+    onDecreaseClick: () -> Unit,
 ) {
-    val context = LocalContext.current
-
     Card(
         modifier = Modifier
             .fillMaxWidth()
@@ -56,10 +59,10 @@ fun ProductInCartListItem(
                 modifier = Modifier
                     .fillMaxHeight()
                     .fillMaxWidth(0.2f),
-                contentAlignment = Alignment.CenterEnd,
+                contentAlignment = Alignment.Center,
             ) {
-                val bitmap = android.util.Base64.decode(product.imageDrawable, android.util.Base64.DEFAULT)
-                    .let { android.graphics.BitmapFactory.decodeByteArray(it, 0, it.size) }
+                val bitmap = Base64.decode(product.imageDrawable, Base64.DEFAULT)
+                    .let { BitmapFactory.decodeByteArray(it, 0, it.size) }
                     ?.asImageBitmap()
 
                 if (bitmap != null) {
@@ -87,16 +90,33 @@ fun ProductInCartListItem(
                 modifier = Modifier.fillMaxSize(),
                 contentAlignment = Alignment.CenterEnd
             ) {
-
-                Button(onClick = onRemoveFromCartTapped) {
-                    Icon(
-                        imageVector = Icons.Default.DeleteOutline,
-                        contentDescription = stringResource(R.string.remove_from_cart_content_description)
+                Row(
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.spacedBy(4.dp)
+                ) {
+                    // bouton -
+                    IconButton(onClick = onDecreaseClick) {
+                        Icon(
+                            imageVector = Icons.Default.Remove,
+                            contentDescription = "Diminuer la quantité"
+                        )
+                    }
+                    // Chiffre de la quantité
+                    Text(
+                        text = product.quantity.toString(),
+                        fontSize = 18.sp,
+                        modifier = Modifier.padding(horizontal = 4.dp)
                     )
-                    Text(text = stringResource(R.string.remove_from_cart_label))
+
+                    // bouton +
+                    IconButton(onClick = onIncreaseClick) {
+                        Icon(
+                            imageVector = Icons.Default.Add,
+                            contentDescription = "Augmenter la quantité"
+                        )
+                    }
                 }
             }
-
         }
     }
 }
@@ -110,17 +130,19 @@ fun ProductInCartListItemPreview() {
         name = "Bob",
         imageDrawable = "",
         price = 11.84,
+        quantity = 2
     )
 
     ProductInCartListItem(
         product = product,
         onProductTapped = {
-            Toast.makeText(context, "Product is tapped", Toast.LENGTH_SHORT)
-                .show()
+            Toast.makeText(context, "Product is tapped", Toast.LENGTH_SHORT).show()
         },
-        onRemoveFromCartTapped = {
-            Toast.makeText(context, "Product removed from cart", Toast.LENGTH_SHORT)
-                .show()
+        onIncreaseClick = {
+            Toast.makeText(context, "Quantity +1", Toast.LENGTH_SHORT).show()
+        },
+        onDecreaseClick = {
+            Toast.makeText(context, "Quantity -1", Toast.LENGTH_SHORT).show()
         }
     )
 }

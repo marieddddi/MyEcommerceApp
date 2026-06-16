@@ -1,6 +1,8 @@
-package com.formation.myecommerceapp.ui.productdetails
+package com.formation.myecommerceapp.domain.ui.productdetails
 
+import android.graphics.BitmapFactory
 import android.icu.util.Currency
+import android.util.Base64
 import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
@@ -37,7 +39,6 @@ import com.formation.myecommerceapp.R
 import com.formation.myecommerceapp.ui.productdetails.component.AddCartButton
 import com.formation.myecommerceapp.ui.productdetails.component.RemoveCartButton
 import com.formation.myecommerceapp.domain.ui.productdetails.state.ProductDetails
-import com.formation.myecommerceapp.utils.ImageConverter
 import java.text.NumberFormat
 import kotlin.math.floor
 
@@ -45,8 +46,8 @@ import kotlin.math.floor
 @OptIn(ExperimentalMaterial3Api::class)
 fun ProductDetailsPage(
     product: ProductDetails,
-    addToCart: () -> Unit,
-    removeFromCart: () -> Unit,
+    addToCart: () -> Unit,       // +1
+    removeFromCart: () -> Unit,  // -1
     toggleFavoriteStatus: () -> Unit,
     navigateBack: () -> Unit,
 ) {
@@ -55,9 +56,7 @@ fun ProductDetailsPage(
     Scaffold(
         topBar = {
             TopAppBar(
-                title = {
-                    Text(stringResource(R.string.product_details_title))
-                },
+                title = { Text(stringResource(R.string.product_details_title)) },
                 navigationIcon = {
                     IconButton(navigateBack) {
                         Icon(
@@ -70,51 +69,68 @@ fun ProductDetailsPage(
         }
     ) { innerPadding ->
         Column(
-            modifier = Modifier.padding(innerPadding),
+            modifier = Modifier.padding(innerPadding).fillMaxSize().padding(16.dp),
             verticalArrangement = Arrangement.spacedBy(8.dp),
         ) {
             Row(
-                modifier = Modifier.height(156.dp),
+                modifier = Modifier.height(156.dp).fillMaxWidth(),
                 horizontalArrangement = Arrangement.spacedBy(8.dp),
             ) {
-                val bitmap = android.util.Base64.decode(product.imageDrawable, android.util.Base64.DEFAULT)
-                    .let { android.graphics.BitmapFactory.decodeByteArray(it, 0, it.size) }
+                // Décodage de l'image Base64
+                val bitmap = Base64.decode(product.imageDrawable, Base64.DEFAULT)
+                    .let { BitmapFactory.decodeByteArray(it, 0, it.size) }
                     ?.asImageBitmap()
 
                 if (bitmap != null) {
                     Image(
                         modifier = Modifier.size(156.dp),
                         bitmap = bitmap,
-                        contentDescription = stringResource(
-                            R.string.product_content_description,
-                            product.name,
-                        ),
+                        contentDescription = stringResource(R.string.product_content_description, product.name),
                     )
                 }
+
                 Column(
                     modifier = Modifier.fillMaxSize(),
                     verticalArrangement = Arrangement.SpaceBetween,
                 ) {
                     Column(verticalArrangement = Arrangement.spacedBy(4.dp)) {
-                        Text(text = product.name, fontSize = 28.sp)
-                        Text(text = product.category, fontSize = 20.sp)
+                        Text(text = product.name, fontSize = 24.sp)
+                        Text(text = product.category, fontSize = 18.sp)
 
                         val formatNumber = NumberFormat.getCurrencyInstance().apply {
                             currency = Currency.getInstance("EUR").toJavaCurrency()
                         }
-                        val price = formatNumber.format(product.price)
-                        Text(price)
+                        Text(formatNumber.format(product.price), fontSize = 20.sp)
                     }
 
-                    Row {
-                        if (product.isInCart) {
-                            RemoveCartButton(removeFromCart)
+                    // Gestion de la quantité dans le panier
+                    Row(
+                        verticalAlignment = Alignment.CenterVertically,
+                        horizontalArrangement = Arrangement.spacedBy(8.dp)
+                    ) {
+                        if (product.quantityInCart > 0) {
+                            // Si produit déjà dans le panier: on affiche le contrôleur de quantité
+                            Row(
+                                verticalAlignment = Alignment.CenterVertically,
+                                horizontalArrangement = Arrangement.spacedBy(12.dp)
+                            ) {
+                                RemoveCartButton(removeFromCart) // bouton "-"
+
+                                Text(
+                                    text = product.quantityInCart.toString(),
+                                    fontSize = 18.sp
+                                )
+
+                                AddCartButton(addToCart) // bouton "+"
+                            }
                         } else {
+                            // Si pas encore dans le panier: on affiche uniquement le bouton pour l'ajouter
                             AddCartButton(addToCart)
                         }
+
+                        // Bouton Favoris
                         IconButton(toggleFavoriteStatus) {
                             if (product.isFavorite) {
-
                                 Icon(
                                     imageVector = Icons.Default.Star,
                                     contentDescription = stringResource(R.string.remove_from_favorite_button_content_description)
@@ -129,7 +145,10 @@ fun ProductDetailsPage(
                     }
                 }
             }
+
             Text(product.description)
+
+            // etoiles
             Row(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.spacedBy(8.dp),
@@ -138,28 +157,18 @@ fun ProductDetailsPage(
                 if (product.markCount > 0) {
                     Row {
                         repeat(floor(product.averageMark).toInt()) { index ->
-                            Icon(
-                                imageVector = Icons.Default.Star,
-                                stringResource(R.string.filled_star_representing_mark, index)
-                            )
+                            Icon(Icons.Default.Star, stringResource(R.string.filled_star_representing_mark, index))
                         }
                         if (product.averageMark % 1 >= 0.5) {
-                            Icon(
-                                imageVector = Icons.AutoMirrored.Filled.StarHalf,
-                                stringResource(R.string.half_filled_star_representing_mark)
-                            )
+                            Icon(Icons.AutoMirrored.Filled.StarHalf, stringResource(R.string.half_filled_star_representing_mark))
                         }
                         repeat(5 - product.averageMark.fastRoundToInt()) {
-                            Icon(
-                                imageVector = Icons.Default.StarBorder,
-                                stringResource(R.string.empty_star_representing_mark)
-                            )
+                            Icon(Icons.Default.StarBorder, stringResource(R.string.empty_star_representing_mark))
                         }
                     }
                     Text(
                         pluralStringResource(
-                            R
-                                .plurals.product_average_mark_and_count,
+                            R.plurals.product_average_mark_and_count,
                             product.markCount,
                             product.averageMark, product.markCount
                         )
@@ -188,16 +197,20 @@ fun ProductDetailsPagePreview() {
         isFavorite = false,
         averageMark = 0.00,
         markCount = 0,
-        isInCart = true,
+        quantityInCart = 0,
     )
 
     ProductDetailsPage(
         product = product,
         addToCart = {
-            product = product.copy(isInCart = true)
+            // clic sur +: quantité +1
+            product = product.copy(quantityInCart = product.quantityInCart + 1)
         },
         removeFromCart = {
-            product = product.copy(isInCart = false)
+            // clic sur -: quantité -1
+            if (product.quantityInCart > 0) {
+                product = product.copy(quantityInCart = product.quantityInCart - 1)
+            }
         },
         toggleFavoriteStatus = {
             product = product.copy(isFavorite = !product.isFavorite)
