@@ -1,0 +1,27 @@
+<resources>
+    <string name="app_name">MyEcommerceApp</string>
+    <string name="product_list_title">Tous les produits</string>
+    <string name="product_content_description">Image représentant le produit %1$s</string>
+    <string name="product_available">Disponible</string>
+    <string name="product_sold_out">Indisponible</string>
+    <string name="status_and_price_separator">Point séparant le statut et le prix du produit</string>
+    <string name="select_product_content_description">Naviguer vers les détails du produit</string>
+    <string name="product_details_title">Détails du produit</string>
+    <string name="navigate_back_to_product_list">Retourner sur la liste des produits.</string>
+    <string name="add_to_cart_content_description">Icône d\'un panier de shopping.</string>
+    <string name="add_to_cart_label">Ajouter au panier</string>
+    <string name="remove_from_cart_content_description">Icône d\'un panier de shopping barré.</string>
+    <string name="remove_from_cart_label">Retirer du panier</string>
+    <string name="add_to_favorite_button_content_description">Ajouter cet article à vos favoris.</string>
+    <string name="remove_from_favorite_button_content_description">Retirer cet article de vos favoris.</string>
+    <string name="filled_star_representing_mark">Étoile pleine représentant une note moyenne d\'au moins %1$d.</string>
+    <string name="half_filled_star_representing_mark">Étoile remplie à moitié représentant 0.5 à 0.99 points sur la note moyenne.</string>
+    <string name="empty_star_representing_mark">Étoile vide représentant un point manquant pour atteindre la note maximale.</string>
+    <plurals name="product_average_mark_and_count">
+        <item quantity="one">%1$.2f/5 sur 1 avi.</item>
+        <item quantity="other">%1$.2f/5 sur %2$d avis.</item>
+    </plurals>
+    <string name="product_with_no_mark">Aucun avis pour le moment.</string>
+    <string name="cart_page_title">Votre panier</string>
+    <string name="error_while_loading_state">Une erreur est arrivé lors du chargement de la page.</string>
+</resources>
