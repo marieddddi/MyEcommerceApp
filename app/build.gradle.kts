@@ -5,7 +5,6 @@ plugins {
     alias(libs.plugins.kotlinx.serialization)
     alias(libs.plugins.koin.compiler)
     alias(libs.plugins.ksp)
-
 }
 
 android {
@@ -69,8 +68,8 @@ dependencies {
     ksp(libs.room.compiler)
     // Retrofit pour les requêtes HTTP
     implementation("com.squareup.retrofit2:retrofit:2.11.0")
-    // Convertisseur Retrofit pour Kotlinx Serialization
+// Convertisseur Retrofit pour Kotlinx Serialization
     implementation("com.squareup.retrofit2:converter-kotlinx-serialization:2.11.0")
-    // Kotlinx Serialization pour le parsing JSON
+// Kotlinx Serialization pour le parsing JSON
     implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.6.3")
 }

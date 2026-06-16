@@ -4,6 +4,8 @@ import android.content.Context
 import androidx.room.Room
 import com.formation.myecommerceapp.domain.data.local.AppDatabase
 import com.formation.myecommerceapp.domain.data.local.dao.ProductDao
+import com.formation.myecommerceapp.domain.data.repository.ProductLocalFirstRepository
+import com.formation.myecommerceapp.domain.data.repository.ProductRepository
 import org.koin.dsl.module
 import org.koin.plugin.module.dsl.create
 
@@ -18,6 +20,7 @@ fun createProductDao(database: AppDatabase): ProductDao =
     database.getProductDao()
 
 val databaseModule = module {
-    single { create(::createAppDatabase) }
-    single { create(::createProductDao) }
+    single { createAppDatabase(get()) }
+    single { createProductDao(get()) }
+    single<ProductRepository> { ProductLocalFirstRepository(get(), get()) }
 }

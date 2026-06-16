@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.navigation.toRoute
 import com.formation.myecommerceapp.domain.data.local.dao.ProductDao
+import com.formation.myecommerceapp.domain.data.repository.ProductRepository
 import com.formation.myecommerceapp.domain.domain.exception.ProductNotFoundException
 import com.formation.myecommerceapp.domain.domain.mapper.toEntity
 import com.formation.myecommerceapp.domain.domain.mapper.toProductDetails
@@ -20,13 +21,16 @@ import kotlinx.coroutines.launch
 
 class ProductDetailsViewModel(
     savedStateHandle: SavedStateHandle,
-    private val productDao: ProductDao,
+    private val productRepository: ProductRepository,
 ) : ViewModel() {
-    private val _state = MutableStateFlow<Result<ProductDetailsState>>(Result.Loading)
-    val state: StateFlow<Result<ProductDetailsState>>
-        get() = _state.asStateFlow()
 
-    val route = savedStateHandle.toRoute<ProductDetailsRoute>()
+    private val route = savedStateHandle.toRoute<ProductDetailsRoute>()
+
+    // 1. Define the missing state flows here
+    // Note: If your Result sealed class doesn't have a 'Loading' object,
+    // change 'Result.Loading' to whatever your default state is.
+    private val _state = MutableStateFlow<Result<ProductDetailsState>>(Result.Loading)
+    val state: StateFlow<Result<ProductDetailsState>> = _state.asStateFlow()
 
     init {
         loadState()
@@ -34,24 +38,18 @@ class ProductDetailsViewModel(
 
     private fun loadState() {
         viewModelScope.launch {
-            val result = productDao.getById(route.productId)
+            val result = productRepository.getById(route.productId)
                 ?.toProductDetails()
-                ?.let { product ->
-                    Log.d("ProductDetailsViewModel", product.toString())
-                    Result.Success(ProductDetailsState(product = product))
-                } ?: Result.Error(ProductNotFoundException(route.productId))
-
-            _state.value = result
+                ?.let { Result.Success(ProductDetailsState(product = it)) }
+                ?: Result.Error(ProductNotFoundException(route.productId))
+            _state.value = result // Now '_state' is recognized!
         }
     }
 
     fun addProductToCart() {
         _state.value.getOrNull()?.let { state ->
             viewModelScope.launch {
-                val product = state.product.toEntity().copy(isInCart = true)
-
-                productDao.upsert(product)
-
+                productRepository.upsert(state.product.toEntity().copy(isInCart = true))
                 loadState()
             }
         }
@@ -60,10 +58,7 @@ class ProductDetailsViewModel(
     fun removeProductFromCart() {
         _state.value.getOrNull()?.let { state ->
             viewModelScope.launch {
-                val product = state.product.toEntity().copy(isInCart = false)
-
-                productDao.upsert(product)
-
+                productRepository.upsert(state.product.toEntity().copy(isInCart = false))
                 loadState()
             }
         }
@@ -73,10 +68,7 @@ class ProductDetailsViewModel(
         _state.value.getOrNull()?.let { state ->
             viewModelScope.launch {
                 val product = state.product
-                val productEntity = product.toEntity().copy(isFavorite = !product.isFavorite)
-
-                productDao.upsert(productEntity)
-
+                productRepository.upsert(product.toEntity().copy(isFavorite = !product.isFavorite))
                 loadState()
             }
         }

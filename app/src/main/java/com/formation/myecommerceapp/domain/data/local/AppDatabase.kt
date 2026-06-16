@@ -7,7 +7,7 @@ import com.formation.myecommerceapp.domain.data.local.entity.ProductEntity
 
 @Database(
     entities = [ProductEntity::class],
-    version = 1
+    version = 2
 )
 abstract class AppDatabase : RoomDatabase() {
 
