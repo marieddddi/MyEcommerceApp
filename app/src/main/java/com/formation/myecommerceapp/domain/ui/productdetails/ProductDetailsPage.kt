@@ -36,8 +36,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.util.fastRoundToInt
 import com.formation.myecommerceapp.R
-import com.formation.myecommerceapp.ui.productdetails.component.AddCartButton
-import com.formation.myecommerceapp.ui.productdetails.component.RemoveCartButton
+import com.formation.myecommerceapp.domain.ui.productdetails.component.AddCartButton
+import com.formation.myecommerceapp.domain.ui.productdetails.component.RemoveCartButton
 import com.formation.myecommerceapp.domain.ui.productdetails.state.ProductDetails
 import java.text.NumberFormat
 import kotlin.math.floor

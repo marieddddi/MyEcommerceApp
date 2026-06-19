@@ -4,8 +4,8 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.formation.myecommerceapp.domain.data.local.dao.ProductDao
 import com.formation.myecommerceapp.domain.mapper.toCart
-import com.formation.myecommerceapp.ui.cart.state.CartState
-import com.formation.myecommerceapp.utils.Result
+import com.formation.myecommerceapp.domain.ui.cart.state.CartState
+import com.formation.myecommerceapp.domain.utils.Result
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow

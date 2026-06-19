@@ -1,3 +1,5 @@
+package com.formation.myecommerceapp.domain.di
+
 import com.formation.myecommerceapp.domain.data.remote.service.ProductApiService
 import kotlinx.serialization.json.Json
 import org.koin.dsl.module

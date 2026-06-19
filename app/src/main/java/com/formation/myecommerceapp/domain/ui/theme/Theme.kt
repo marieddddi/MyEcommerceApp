@@ -1,4 +1,4 @@
-package com.formation.myecommerceapp.ui.theme
+package com.formation.myecommerceapp.domain.ui.theme
 
 import android.app.Activity
 import android.os.Build

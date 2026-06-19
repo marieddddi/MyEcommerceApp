@@ -1,4 +1,4 @@
-package com.formation.myecommerceapp.ui.routing.navigation
+package com.formation.myecommerceapp.domain.ui.routing.navigation
 
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -6,12 +6,12 @@ import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
 import com.formation.myecommerceapp.domain.ui.productlist.ProductListPage
 import com.formation.myecommerceapp.domain.ui.productlist.ProductListViewModel
-import com.formation.myecommerceapp.ui.routing.ProductListRoute
-import com.formation.myecommerceapp.ui.shared.ErrorPage
-import com.formation.myecommerceapp.ui.shared.LoadingPage
-import com.formation.myecommerceapp.utils.Result
-import com.formation.myecommerceapp.utils.getExceptionOrNull
-import com.formation.myecommerceapp.utils.getOrNull
+import com.formation.myecommerceapp.domain.ui.routing.ProductListRoute
+import com.formation.myecommerceapp.domain.ui.shared.ErrorPage
+import com.formation.myecommerceapp.domain.ui.shared.LoadingPage
+import com.formation.myecommerceapp.domain.utils.Result
+import com.formation.myecommerceapp.domain.utils.getExceptionOrNull
+import com.formation.myecommerceapp.domain.utils.getOrNull
 import org.koin.compose.viewmodel.koinViewModel
 
 fun NavGraphBuilder.productListNavigation(
@@ -29,7 +29,10 @@ fun NavGraphBuilder.productListNavigation(
                 onProductTapped = { product ->
                     navigateToProductDetails(product.id)
                 },
-                onCartActionIconTapped = navigateToCart
+                onCartActionIconTapped = navigateToCart,
+                onFavoriteToggled = { product ->
+                    viewModel.toggleFavorite(product)
+                },
             )
 
             is Result.Loading -> LoadingPage()

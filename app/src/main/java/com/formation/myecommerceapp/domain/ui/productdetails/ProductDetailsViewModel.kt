@@ -8,10 +8,10 @@ import com.formation.myecommerceapp.domain.data.repository.ProductRepository
 import com.formation.myecommerceapp.domain.domain.exception.ProductNotFoundException
 import com.formation.myecommerceapp.domain.domain.mapper.toEntity
 import com.formation.myecommerceapp.domain.domain.mapper.toProductDetails
-import com.formation.myecommerceapp.ui.productdetails.state.ProductDetailsState
-import com.formation.myecommerceapp.ui.routing.ProductDetailsRoute
-import com.formation.myecommerceapp.utils.Result
-import com.formation.myecommerceapp.utils.getOrNull
+import com.formation.myecommerceapp.domain.ui.productdetails.state.ProductDetailsState
+import com.formation.myecommerceapp.domain.ui.routing.ProductDetailsRoute
+import com.formation.myecommerceapp.domain.utils.Result
+import com.formation.myecommerceapp.domain.utils.getOrNull
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow

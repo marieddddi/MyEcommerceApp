@@ -1,4 +1,4 @@
-package com.formation.myecommerceapp.ui.shared
+package com.formation.myecommerceapp.domain.ui.shared
 
 import android.util.Log
 import androidx.compose.foundation.layout.Box

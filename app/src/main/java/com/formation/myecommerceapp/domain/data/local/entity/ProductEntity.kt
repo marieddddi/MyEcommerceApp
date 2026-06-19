@@ -13,7 +13,7 @@ data class ProductEntity(
     @ColumnInfo(name = "is_available") val isAvailable: Boolean,
     val price: Double,
     val category: String,
-    @ColumnInfo(name = "is_favorite") val isFavorite: Boolean,
+    @ColumnInfo(name = "is_favorite") val isFavorite: Boolean = false,
     @ColumnInfo(name = "average_mark") val averageMark: Double,
     @ColumnInfo(name = "mark_count") val markCount: Int,
     @ColumnInfo(name = "quantity_in_cart") val quantityInCart: Int = 0,

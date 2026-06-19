@@ -1,6 +1,4 @@
-package com.formation.myecommerceapp.ui.productdetails.state
-
-import com.formation.myecommerceapp.domain.ui.productdetails.state.ProductDetails
+package com.formation.myecommerceapp.domain.ui.productdetails.state
 
 data class ProductDetailsState(
     val product: ProductDetails,

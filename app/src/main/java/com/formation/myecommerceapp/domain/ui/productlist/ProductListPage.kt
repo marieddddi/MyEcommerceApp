@@ -20,8 +20,8 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.formation.myecommerceapp.R
-import com.formation.myecommerceapp.ui.productlist.component.ProductListItem
-import com.formation.myecommerceapp.ui.productlist.state.Product
+import com.formation.myecommerceapp.domain.ui.productlist.component.ProductListItem
+import com.formation.myecommerceapp.domain.ui.productlist.state.Product
 
 @Composable
 @OptIn(ExperimentalMaterial3Api::class)
@@ -29,6 +29,7 @@ fun ProductListPage(
     products: List<Product>,
     onProductTapped: (Product) -> Unit,
     onCartActionIconTapped: () -> Unit,
+    onFavoriteToggled: (Product) -> Unit,
 ) {
     Scaffold(
         modifier = Modifier.padding(horizontal = 8.dp),
@@ -53,9 +54,11 @@ fun ProductListPage(
             verticalArrangement = Arrangement.spacedBy(8.dp),
         ) {
             items(products) { product ->
-                ProductListItem(product) {
-                    onProductTapped(product)
-                }
+                ProductListItem(
+                    product = product,
+                    onProductTapped = { onProductTapped(product) },
+                    onFavoriteToggled = { onFavoriteToggled(product) }
+                )
             }
         }
     }
@@ -75,6 +78,7 @@ fun ProductListPagePreview() {
                 imageDrawable = "",
                 isAvailable = true,
                 price = 11.84,
+                isFavorite = false
             )
         ),
         onProductTapped = { product ->
@@ -84,6 +88,9 @@ fun ProductListPagePreview() {
         onCartActionIconTapped = {
             Toast.makeText(context, "Navigate to cart details !", Toast.LENGTH_SHORT)
                 .show()
+        },
+        onFavoriteToggled = { product ->
+            Toast.makeText(context, "${product.name} favorite toggled !", Toast.LENGTH_SHORT).show()
         },
     )
 }

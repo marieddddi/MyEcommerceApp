@@ -1,4 +1,4 @@
-package com.formation.myecommerceapp.utils
+package com.formation.myecommerceapp.domain.utils
 
 /**
  * A generic class that holds a value with its loading status.

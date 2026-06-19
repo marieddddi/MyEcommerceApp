@@ -1,4 +1,4 @@
-package com.formation.myecommerceapp.utils
+package com.formation.myecommerceapp.domain.utils
 
 /**
  * Remplace [originalItem] dans la liste par [newItem].

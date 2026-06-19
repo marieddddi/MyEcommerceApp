@@ -1,4 +1,4 @@
-package com.formation.myecommerceapp.ui.productdetails.component
+package com.formation.myecommerceapp.domain.ui.productdetails.component
 
 import android.widget.Toast
 import androidx.compose.foundation.layout.Arrangement

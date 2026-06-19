@@ -1,4 +1,4 @@
-package com.formation.myecommerceapp.ui.productlist.state
+package com.formation.myecommerceapp.domain.ui.productlist.state
 
 data class Product(
     val id: Int,
@@ -7,4 +7,5 @@ data class Product(
     val imageDrawable: String?,
     val isAvailable: Boolean,
     val price: Double,
+    val isFavorite: Boolean = false,
 )

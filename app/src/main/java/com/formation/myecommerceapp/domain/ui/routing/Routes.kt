@@ -1,4 +1,4 @@
-package com.formation.myecommerceapp.ui.routing
+package com.formation.myecommerceapp.domain.ui.routing
 
 import kotlinx.serialization.Serializable
 

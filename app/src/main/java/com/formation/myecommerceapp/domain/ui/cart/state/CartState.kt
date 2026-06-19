@@ -1,4 +1,4 @@
-package com.formation.myecommerceapp.ui.cart.state
+package com.formation.myecommerceapp.domain.ui.cart.state
 
 import com.formation.myecommerceapp.domain.ui.cart.state.Cart
 

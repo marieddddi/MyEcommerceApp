@@ -1,4 +1,4 @@
-package com.formation.myecommerceapp.ui.productlist.component
+package com.formation.myecommerceapp.domain.ui.productlist.component
 
 import android.icu.util.Currency
 import android.widget.Toast
@@ -15,6 +15,8 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ChevronRight
 import androidx.compose.material.icons.filled.Circle
+import androidx.compose.material.icons.filled.Favorite
+import androidx.compose.material.icons.filled.FavoriteBorder
 import androidx.compose.material3.ElevatedCard
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -22,18 +24,18 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.formation.myecommerceapp.R
-import com.formation.myecommerceapp.ui.productlist.state.Product
-import com.formation.myecommerceapp.utils.ImageConverter
+import com.formation.myecommerceapp.domain.ui.productlist.state.Product
 import java.text.NumberFormat
 
 @Composable
-fun ProductListItem(product: Product, onProductTapped: () -> Unit) {
+fun ProductListItem(product: Product, onProductTapped: () -> Unit, onFavoriteToggled: () -> Unit) {
     val context = LocalContext.current
 
     ElevatedCard(
@@ -101,17 +103,28 @@ fun ProductListItem(product: Product, onProductTapped: () -> Unit) {
                         val price = priceFormatter.format(product.price)
                         Text(price)
                     }
-                    IconButton(onClick = { onProductTapped() }) {
-                        Icon(
-                            imageVector = Icons.Default.ChevronRight,
-                            contentDescription = stringResource(R.string.select_product_content_description),
-                        )
+                    Row(
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        // BOUTON WISHLIST
+                        IconButton(onClick = onFavoriteToggled) {
+                            Icon(
+                                imageVector = if (product.isFavorite) Icons.Default.Favorite else Icons.Default.FavoriteBorder,
+                                contentDescription = "Ajouter aux favoris",
+                                tint = if (product.isFavorite) Color.Red else Color.Gray
+                            )
+                        }
+                        IconButton(onClick = { onProductTapped() }) {
+                            Icon(
+                                imageVector = Icons.Default.ChevronRight,
+                                contentDescription = stringResource(R.string.select_product_content_description),
+                            )
+                        }
                     }
                 }
             }
         }
     }
-
 }
 
 @Preview
@@ -126,6 +139,7 @@ fun ProductListItemPreview() {
         imageDrawable = "",
         isAvailable = true,
         price = 11.84,
+        isFavorite = false,
     )
 
     ProductListItem(
@@ -133,6 +147,7 @@ fun ProductListItemPreview() {
         onProductTapped = {
             Toast.makeText(context, "Product clicked", Toast.LENGTH_SHORT)
                 .show()
-        }
+        },
+        onFavoriteToggled = { }
     )
 }

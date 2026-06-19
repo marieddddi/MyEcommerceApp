@@ -1,4 +1,4 @@
-package com.formation.myecommerceapp.utils
+package com.formation.myecommerceapp.domain.utils
 
 import android.content.Context
 import android.graphics.Bitmap

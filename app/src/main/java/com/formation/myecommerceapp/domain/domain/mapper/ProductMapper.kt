@@ -3,7 +3,7 @@ package com.formation.myecommerceapp.domain.domain.mapper
 import com.formation.myecommerceapp.domain.data.local.entity.ProductEntity
 import com.formation.myecommerceapp.domain.ui.cart.state.ProductInCart
 import com.formation.myecommerceapp.domain.ui.productdetails.state.ProductDetails
-import com.formation.myecommerceapp.ui.productlist.state.Product
+import com.formation.myecommerceapp.domain.ui.productlist.state.Product
 
 fun ProductEntity.toProduct() = Product(
     id = id,
@@ -12,6 +12,7 @@ fun ProductEntity.toProduct() = Product(
     imageDrawable = imageDrawable,
     isAvailable = isAvailable,
     price = price,
+    isFavorite = isFavorite,
 )
 
 fun ProductEntity.toProductDetails() = ProductDetails(

@@ -1,6 +1,6 @@
 package com.formation.myecommerceapp.domain.data.remote.dto
 
-import com.formation.myecommerceapp.ui.productlist.state.Product
+import com.formation.myecommerceapp.domain.ui.productlist.state.Product
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.SerialName
 
