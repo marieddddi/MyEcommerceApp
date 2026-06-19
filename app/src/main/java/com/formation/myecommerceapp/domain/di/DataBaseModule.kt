@@ -4,10 +4,10 @@ import android.content.Context
 import androidx.room.Room
 import com.formation.myecommerceapp.domain.data.local.AppDatabase
 import com.formation.myecommerceapp.domain.data.local.dao.ProductDao
+import com.formation.myecommerceapp.domain.data.local.dao.UserDao // 👈 AJOUTE CET IMPORT
 import com.formation.myecommerceapp.domain.data.repository.ProductLocalFirstRepository
 import com.formation.myecommerceapp.domain.data.repository.ProductRepository
 import org.koin.dsl.module
-import org.koin.plugin.module.dsl.create
 
 fun createAppDatabase(applicationContext: Context): AppDatabase =
     Room.databaseBuilder(
@@ -18,10 +18,13 @@ fun createAppDatabase(applicationContext: Context): AppDatabase =
         .build()
 
 fun createProductDao(database: AppDatabase): ProductDao =
-    database.getProductDao()
+    database.productDao()
+fun createUserDao(database: AppDatabase): UserDao =
+    database.userDao()
 
 val databaseModule = module {
     single { createAppDatabase(get()) }
     single { createProductDao(get()) }
+    single { createUserDao(get()) } // 👈 AJOUTE CETTE LIGNE pour Koin
     single<ProductRepository> { ProductLocalFirstRepository(get(), get()) }
 }
