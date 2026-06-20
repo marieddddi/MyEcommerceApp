@@ -20,4 +20,7 @@ interface ProductDao {
 
     @Insert(onConflict = REPLACE)
     suspend fun upsert(product: ProductEntity)
+
+    @Query("UPDATE products SET is_favorite = :isFavorite WHERE id = :id")
+    suspend fun updateFavoriteStatus(id: Int, isFavorite: Boolean)
 }

@@ -1,4 +1,4 @@
-package com.formation.myecommerceapp.domain.ui.productlist
+package com.formation.myecommerceapp.domain.ui.wishlist
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -12,20 +12,17 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 
-class ProductListViewModel(
+class WishlistViewModel(
     private val productRepository: ProductRepository,
 ) : ViewModel() {
     private val _state = MutableStateFlow<Result<ProductListState>>(Result.Loading)
     val state: StateFlow<Result<ProductListState>> = _state.asStateFlow()
 
     init {
-        loadProducts()
-    }
-
-    private fun loadProducts() {
         viewModelScope.launch {
             try {
-                productRepository.getAll().collect { entities ->
+                // On écoute uniquement les favoris
+                productRepository.getFavorites().collect { entities ->
                     _state.value = Result.Success(ProductListState(entities.map { it.toProduct() }))
                 }
             } catch (e: Exception) {
@@ -34,13 +31,14 @@ class ProductListViewModel(
         }
     }
 
-    fun toggleFavorite(product: Product) {
+    // Version optimisée grâce à la fonction de ton IDE !
+    fun removeFromFavorites(product: Product) {
         viewModelScope.launch {
             try {
-                // On passe directement l'ID et l'état inversé !
-                productRepository.updateFavoriteStatus(product.id, !product.isFavorite)
+                // On force directement l'état à "false" en une seule ligne SQL
+                productRepository.updateFavoriteStatus(product.id, false)
             } catch (e: Exception) {
-                // Gestion d'erreur
+                // Gérer l'erreur si nécessaire
             }
         }
     }

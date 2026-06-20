@@ -7,4 +7,6 @@ interface ProductRepository {
     fun getAll(): Flow<List<ProductEntity>>
     suspend fun getById(id: Int): ProductEntity?
     suspend fun upsert(product: ProductEntity)
+    fun getFavorites(): Flow<List<ProductEntity>>
+    suspend fun updateFavoriteStatus(id: Int, isFavorite: Boolean)
 }

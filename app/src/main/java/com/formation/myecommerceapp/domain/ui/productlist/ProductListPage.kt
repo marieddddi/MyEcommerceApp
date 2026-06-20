@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.outlined.FavoriteBorder
 import androidx.compose.material.icons.outlined.ShoppingCart
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
@@ -29,6 +30,7 @@ fun ProductListPage(
     products: List<Product>,
     onProductTapped: (Product) -> Unit,
     onCartActionIconTapped: () -> Unit,
+    onWishlistActionIconTapped: () -> Unit,
     onFavoriteToggled: (Product) -> Unit,
 ) {
     Scaffold(
@@ -39,6 +41,12 @@ fun ProductListPage(
                     Text(stringResource(R.string.product_list_title))
                 },
                 actions = {
+                    IconButton(onWishlistActionIconTapped) {
+                        Icon(
+                            imageVector = Icons.Outlined.FavoriteBorder,
+                            contentDescription = "Navigate to wishlist",
+                        )
+                    }
                     IconButton(onCartActionIconTapped) {
                         Icon(
                             imageVector = Icons.Outlined.ShoppingCart,
@@ -89,6 +97,7 @@ fun ProductListPagePreview() {
             Toast.makeText(context, "Navigate to cart details !", Toast.LENGTH_SHORT)
                 .show()
         },
+        onWishlistActionIconTapped = { },
         onFavoriteToggled = { product ->
             Toast.makeText(context, "${product.name} favorite toggled !", Toast.LENGTH_SHORT).show()
         },

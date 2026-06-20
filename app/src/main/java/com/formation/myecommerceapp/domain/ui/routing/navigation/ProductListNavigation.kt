@@ -17,6 +17,7 @@ import org.koin.compose.viewmodel.koinViewModel
 fun NavGraphBuilder.productListNavigation(
     navigateToProductDetails: (Int) -> Unit,
     navigateToCart: () -> Unit,
+    navigateToWishlist: () -> Unit,
 ) {
     composable<ProductListRoute> {
         val viewModel: ProductListViewModel = koinViewModel()
@@ -30,6 +31,7 @@ fun NavGraphBuilder.productListNavigation(
                     navigateToProductDetails(product.id)
                 },
                 onCartActionIconTapped = navigateToCart,
+                onWishlistActionIconTapped = navigateToWishlist,
                 onFavoriteToggled = { product ->
                     viewModel.toggleFavorite(product)
                 },
