@@ -55,4 +55,7 @@ class ProductLocalFirstRepository(
     override suspend fun upsert(product: ProductEntity) = productDao.upsert(product)
 
     fun getCartProducts(): Flow<List<ProductEntity>> = productDao.getCartProducts()
+
+    fun getFavoriteProducts(): Flow<List<ProductEntity>> = productDao.getFavoriteProducts()
+
 }

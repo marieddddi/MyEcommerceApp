@@ -20,4 +20,7 @@ interface ProductDao {
 
     @Insert(onConflict = REPLACE)
     suspend fun upsert(product: ProductEntity)
+
+    @Query("SELECT * FROM products WHERE is_favorite = 1")
+    fun getFavoriteProducts(): Flow<List<ProductEntity>>
 }

@@ -4,8 +4,8 @@ import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
 import com.formation.myecommerceapp.domain.ui.login.LoginPage
-import com.formation.myecommerceapp.ui.routing.LoginRoute
-import com.formation.myecommerceapp.ui.routing.ProductListRoute
+import com.formation.myecommerceapp.domain.ui.routing.LoginRoute
+import com.formation.myecommerceapp.domain.ui.routing.ProductListRoute
 
 fun NavGraphBuilder.loginNavigation(
     onLoginSuccess: () -> Unit

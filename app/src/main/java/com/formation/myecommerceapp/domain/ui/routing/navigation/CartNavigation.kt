@@ -7,7 +7,7 @@ import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
 import com.formation.myecommerceapp.domain.ui.cart.CartViewModel
 import com.formation.myecommerceapp.domain.ui.cart.CartPage
-import com.formation.myecommerceapp.ui.routing.CartRoute
+import com.formation.myecommerceapp.domain.ui.routing.CartRoute
 import com.formation.myecommerceapp.ui.shared.ErrorPage
 import com.formation.myecommerceapp.ui.shared.LoadingPage
 import com.formation.myecommerceapp.utils.Result

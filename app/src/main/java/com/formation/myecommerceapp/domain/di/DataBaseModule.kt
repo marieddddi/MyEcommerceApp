@@ -7,6 +7,7 @@ import com.formation.myecommerceapp.domain.data.local.dao.ProductDao
 import com.formation.myecommerceapp.domain.data.local.dao.UserDao // 👈 AJOUTE CET IMPORT
 import com.formation.myecommerceapp.domain.data.repository.ProductLocalFirstRepository
 import com.formation.myecommerceapp.domain.data.repository.ProductRepository
+import org.koin.dsl.bind
 import org.koin.dsl.module
 
 fun createAppDatabase(applicationContext: Context): AppDatabase =
@@ -14,7 +15,7 @@ fun createAppDatabase(applicationContext: Context): AppDatabase =
         context = applicationContext,
         klass = AppDatabase::class.java,
         name = "my-ecommerce-app-db"
-    ).fallbackToDestructiveMigration()
+    ).fallbackToDestructiveMigration(dropAllTables = true)
         .build()
 
 fun createProductDao(database: AppDatabase): ProductDao =
@@ -25,6 +26,7 @@ fun createUserDao(database: AppDatabase): UserDao =
 val databaseModule = module {
     single { createAppDatabase(get()) }
     single { createProductDao(get()) }
-    single { createUserDao(get()) } // 👈 AJOUTE CETTE LIGNE pour Koin
+    single { createUserDao(get()) }
     single<ProductRepository> { ProductLocalFirstRepository(get(), get()) }
+    single { ProductLocalFirstRepository(get(), get()) } bind ProductRepository::class
 }

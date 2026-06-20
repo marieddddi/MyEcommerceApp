@@ -3,7 +3,7 @@
   <component name="deploymentTargetSelector">
     <selectionStates>
       <SelectionState runConfigName="app">
-        <option name="sgit stashelectionMode" value="DROPDOWN" />
+        <option name="selectionMode" value="DROPDOWN" />
         <DropdownSelection timestamp="2026-06-12T07:28:23.339417679Z">
           <Target type="DEFAULT_BOOT">
             <handle>

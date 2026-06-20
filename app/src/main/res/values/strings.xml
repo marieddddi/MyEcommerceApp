@@ -24,4 +24,7 @@
     <string name="product_with_no_mark">Aucun avis pour le moment.</string>
     <string name="cart_page_title">Votre panier</string>
     <string name="error_while_loading_state">Une erreur est arrivé lors du chargement de la page.</string>
+    <string name="wishlist_title">Favoris</string>
+    <string name="wishlist_empty">Aucun produit en favoris pour le moment</string>
+    <string name="navigate_to_wishlist">Voir la liste de favoris</string>
 </resources>

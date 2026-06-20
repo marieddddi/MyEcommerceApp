@@ -7,7 +7,7 @@ import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
 import com.formation.myecommerceapp.domain.ui.productdetails.ProductDetailsPage
 import com.formation.myecommerceapp.domain.ui.productdetails.ProductDetailsViewModel
-import com.formation.myecommerceapp.ui.routing.ProductDetailsRoute
+import com.formation.myecommerceapp.domain.ui.routing.ProductDetailsRoute
 import com.formation.myecommerceapp.ui.shared.ErrorPage
 import com.formation.myecommerceapp.ui.shared.LoadingPage
 import com.formation.myecommerceapp.utils.Result
