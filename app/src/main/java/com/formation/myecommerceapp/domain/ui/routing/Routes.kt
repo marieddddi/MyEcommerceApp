@@ -17,4 +17,7 @@ data class ProductDetailsRoute(
 object CartRoute
 
 @Serializable
+object CheckoutRoute
+
+@Serializable
 object WishlistRoute

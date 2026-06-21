@@ -17,6 +17,7 @@ import org.koin.compose.viewmodel.koinViewModel
 
 fun NavGraphBuilder.cartNavigation(
     navigateToProductDetails: (Int) -> Unit,
+    navigateToCheckout: () -> Unit,
     navigateBack: () -> Unit,
 ) {
     composable<CartRoute> {
@@ -35,6 +36,7 @@ fun NavGraphBuilder.cartNavigation(
                 onDecreaseQuantityTapped = { product ->
                     viewModel.decreaseProductQuantity(product.id)
                 },
+                onCheckoutTapped = navigateToCheckout,
                 onBackPressed = navigateBack,
             )
 

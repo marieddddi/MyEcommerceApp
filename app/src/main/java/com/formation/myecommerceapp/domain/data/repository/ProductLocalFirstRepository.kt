@@ -13,12 +13,12 @@ class ProductLocalFirstRepository(
 ) : ProductRepository {
 
     override fun getAll(): Flow<List<ProductEntity>> = flow {
-        // récupération de la bdd
+        // On récupère d'abord ce qu'on a en local
         val localProducts = productDao.getAll().first()
+        emit(localProducts)
 
-        if (localProducts.isNotEmpty()) {
-            emit(localProducts)
-        } else {
+        // Puis on tente de mettre à jour via l'API
+        try {
             val response = productApiService.getProducts()
             if (response.isSuccessful) {
                 response.body()?.products?.forEach { dto ->
@@ -45,8 +45,15 @@ class ProductLocalFirstRepository(
                         )
                     )
                 }
+                // On réémet la liste mise à jour
                 emit(productDao.getAll().first())
             }
+        } catch (e: Exception) {
+            // Si on n'a aucun produit et que l'API échoue, on remonte l'erreur
+            if (localProducts.isEmpty()) {
+                throw e
+            }
+            // Sinon on ignore l'erreur de réseau car on a déjà émis les données locales
         }
     }
 

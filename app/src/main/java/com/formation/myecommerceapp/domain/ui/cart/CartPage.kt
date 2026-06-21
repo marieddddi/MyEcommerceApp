@@ -45,6 +45,7 @@ fun CartPage(
     onProductTapped: (ProductInCart) -> Unit,
     onIncreaseQuantityTapped: (ProductInCart) -> Unit,
     onDecreaseQuantityTapped: (ProductInCart) -> Unit,
+    onCheckoutTapped: () -> Unit,
     onBackPressed: () -> Unit,
 ) {
     val currencyFormat = NumberFormat.getCurrencyInstance().apply {
@@ -98,7 +99,7 @@ fun CartPage(
                         }
 
                         Button(
-                            onClick = {},
+                            onClick = onCheckoutTapped,
                             modifier = Modifier.fillMaxWidth()
                         ) {
                             Text(text = "Passer la commande", fontSize = 16.sp)
@@ -163,6 +164,9 @@ fun CartPagePreview() {
         },
         onBackPressed = {
             Toast.makeText(context, "Back arrow pressed", Toast.LENGTH_SHORT).show()
+        },
+        onCheckoutTapped = {
+            Toast.makeText(context, "Navigate to checkout", Toast.LENGTH_SHORT).show()
         }
     )
 }
