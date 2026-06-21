@@ -18,7 +18,7 @@ val remoteSourceModule = module {
         }
 
         Retrofit.Builder()
-            .baseUrl("http://192.168.0.56:8080/") // adresse IP du pc
+            .baseUrl("http://192.168.1.95:8080/") // adresse IP du pc
             .addConverterFactory(jsonConfig.asConverterFactory(contentType))
             .build()
     }
